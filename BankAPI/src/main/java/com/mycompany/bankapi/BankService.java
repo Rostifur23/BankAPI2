@@ -40,8 +40,10 @@ public class BankService {
     public Response getBankAccounts(@PathParam("uid") 
             String uid) {
         
-        Account a1 = new Account(1234, 12345678, 123.47, "Current", 1, 1);
-        Account a2 = new Account(5678, 87654321, 4150.34, "Savings", 1, 1);
+        //Account a1 = new Account(1234, 12345678, 123.47, "Current", 1, 1);
+        Account a1 = new Account(1, 1234, 12345678, 123.47, "current");
+        //Account a2 = new Account(5678, 87654321, 4150.34, "Savings", 1, 1);
+        Account a2 = new Account(2, 5678, 87654321, 4160.34, "Savings");
         
         ArrayList<Account> accounts = new ArrayList<>();
         accounts.add(a1);
@@ -210,7 +212,8 @@ public class BankService {
             String accountId) {
         
         int id = Integer.parseInt(accountId);
-        Account a1 = new Account(1234, 12345678, 123.47, "Current", id, 1);
+        Account a1 = new Account(id, 1234, 12345678, 123.47, "Current");
+        //Account a1 = new Account(1234, 12345678, 123.47, "Current", id, 1);
         return Response.status(200).entity(gson.toJson(a1)).build();
         
     } 
