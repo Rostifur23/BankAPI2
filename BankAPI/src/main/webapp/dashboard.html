@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>User Dashboard</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div>User Dashboard</div>
+        <div class="acc_container">
+            <div class="account_details">
+                <h3 class="name"></h3>
+                <div class="account_num"></div>
+                <div class="sort_code"></div>
+                <div class="balance"></div>
+                <div class="account_type"></div>
+            </div>
+            <div class="options">
+                <button class="form_btn" id="display_btn">Make Payment</button>
+                <div class="make_payment">
+                    <form>
+                        <select id="payment">
+                            <option value="withdrawal">Withdrawal</option>
+                            <option value="lodgement">Lodgement</option>
+                            <option value="transfer">Transfer</option>
+                        </select>
+                        <input class="form_input" placeholder="Amount" id="amt" type="number" name="amt"/>
+                        <br>
+                        <input class="form_input" placeholder="Description" id="desc" type="text" name="desc"/>
+                        <br>
+                        <div id="transfer_option">
+                            <label>Transfer to what account: </label>
+                            <input class="form_input" placeholder="account number" id="acc_num" type="text" name="acc_num"/>
+                        </div>
+                        <br>
+                        <input class="form_btn" id="submitBtn" type="submit" value="Submit"/>
+                    </form>
+                </div>
+                <button class="form_btn" id="show_transactions">View Transactions</button>
+                <div class="view_transactions">
+                </div>
+            </div>
+        </div> 
+    </body>
+</html>
+<script>
+    $(document).ready(function(){
+            
+            /*
+            $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/api/bankapp/user/session",
+                dataType: 'json', // data type of response
+                contenttype: 'application/json',
+                success: function (data){
+                    var uid = data;
+                    
+                }
+                
+            });
+            */
+            
+            $(".make_payment").hide();
+            $(".view_transactions").hide();
+        
+            $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/api/bankapp/user/account/1",
+                dataType: 'json', // data type of response
+                contenttype: 'application/json',
+                success: function (data){
+                    
+                    
+                    $(".name").html(data.cust_name);
+                    
+                }
+                
+            });
+            
+            
+            $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/api/bankapp/bank/account/1",
+                dataType: 'json', // data type of response
+                contenttype: 'application/json',
+                success: function (data){
+                    // loop through data outputting each account
+                    
+                    $(".account_num").html(data.account_num);
+                    $(".sort_code").html(data.sort_code);
+                    $(".balance").html(data.balance);
+                    $(".account_type").html(data.account_type);
+                    
+                }
+                
+            });
+            
+            $("#display_btn").click(function(){
+                $(".make_payment").slideToggle( "slow", function() {
+                    // Animation complete.
+                });
+            });
+            
+            $("#show_transactions").click(function(){
+                $(".view_transactions").slideToggle( "slow", function() {
+                    // Animation complete.
+                });
+            });
+            
+            $("#submitBtn").click(function(){
+                
+                var date = new Date();
+                var transaction = $('#payment :selected').text();
+                var amount = $('#amt').val();
+                var description = $('#desc').val();
+                var account_num = $('#acc_num').val();
+                
+                if(transaction == 'Transfer'){
+                    var transObj = {
+                        "date": date,
+                        "description": description,
+                        "trans_type": transaction,
+                        "amount": amount,
+                        "trans_to": account_num
+                    };
+                    
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        url: "http://localhost:8080/api/bankapp/account/transactions/transfer",
+                        dataType: "json",
+                        data: transObj
+                        
+                    });
+                }
+                
+                else if(transaction == 'Lodgement'){
+                    var transObj = {
+                        "date": date,
+                        "description": description,
+                        "trans_type": transaction,
+                        "amount": amount
+                    };
+                    
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        url: "http://localhost:8080/api/bankapp/account/transactions/lodgment",
+                        dataType: "json",
+                        data: transObj
+                        
+                    });
+                }
+                
+                else if(transaction == 'Withdrawal'){
+                    var transObj = {
+                        "date": date,
+                        "description": description,
+                        "trans_type": transaction,
+                        "amount": amount
+                    };
+                    
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        url: "http://localhost:8080/api/bankapp/account/transactions/withdraw",
+                        dataType: "json",
+                        data: transObj
+                        
+                    });
+                }
+                
+                
+                
+            });
+       
+    });
+</script>

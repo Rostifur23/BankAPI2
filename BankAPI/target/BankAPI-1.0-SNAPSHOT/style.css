@@ -1,0 +1,61 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 03-Dec-2018, 16:33:32
+    Author     : emmma
+*/
+
+
+body {
+    background-color: powderblue;
+}
+
+.container {
+    width:40%;
+    margin:0 auto;
+    padding:2em;
+    background-color: #FAFAFA; 
+    text-align: center;
+}
+
+.form_input {
+    padding-top:1em;
+    padding-bottom:1em;
+    margin-top:1em;
+    width:100%;
+    text-align: center;
+}
+
+.form_btn {
+    padding: 1em;
+    background-color: blue;
+    color: white;
+    margin-top:1em;
+    width:100%;
+    text-align: center;
+}
+
+.settings_container {
+    width: 80%;
+    margin: 0 auto;
+    padding:2em;
+    background-color: #FAFAFA; 
+    text-align: center;
+}
+
+.password_form, .address_form {
+    width: 40%;
+    display: inline-block;
+}
+
+.address_form {
+    padding-left: 8%;
+}
+
+.acc_container {
+    margin: 0 auto;
+    width: 50%;
+}

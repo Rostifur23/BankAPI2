@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Select an Account</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div>Select an Account</div>
+        <div class="acc_container">
+            <div class="accounts"></div>
+        </div>
+    </body>
+</html>
+<script>
+    $(document).ready(function(){
+        
+            $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/api/bankapp/accounts/1",
+                dataType: 'json', // data type of response
+                contenttype: 'application/json',
+                success: function (data){
+                    // loop through data outputting each account
+                    console.log(data);
+                    var html = "";
+                    for (i in data) {
+                        console.log(data[i]);
+                        html = html+'<form><input class="form_btn" type="submit" value="'+data[i].account_type+' : '+data[i].account_num+'"/></form>'
+                                    
+                    }
+                    $(".accounts").html(html);   
+                    
+                    
+                }
+                
+            });
+            
+    });
+</script>

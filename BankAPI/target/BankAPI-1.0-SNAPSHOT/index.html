@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body> 
+        <!-- User Login Form -->
+        <div class="container">
+            <h1>Log In</h1>
+            <form action="http://localhost:8080/api/bankapp/user/login/" method="POST">
+                <input class="form_input" placeholder="email" id="email" type="email" name="email"/>
+                <br>
+                <input class="form_input" placeholder="password" id="password" type="password" name="password"/>
+                <br>
+                <input class="form_btn" id="submitBtn" type="submit" value="Submit"/>
+            </form>
+             <!-- Link to Create Account page -->
+            <a href="http://localhost:8080/register.html">Create an Account</a>
+        </div>
+    </body>
+</html>
+
+<script>
+    
+    /*
+    $(document).ready(function(){
+        $("#submitBtn").click(function(){
+            
+            var email = $('#email').val();
+            var password = $('#password').val();
+            alert(email+" "+password);
+            var credObj = {
+                "email": email,
+                "password": password
+            };
+            
+            
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: "http://localhost:8080/api/bankapp/user/login/",
+                dataType: "json",
+                data: credObj
+                
+                
+            });
+        });
+    });
+    */
+    
+</script>
