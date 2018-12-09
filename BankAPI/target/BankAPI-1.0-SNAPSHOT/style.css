@@ -10,14 +10,14 @@ and open the template in the editor.
 
 
 body {
-    background-color: powderblue;
+    background-color: #A9F4LA;
 }
 
 .container {
     width:40%;
     margin:0 auto;
     padding:2em;
-    background-color: #FAFAFA; 
+    background-color: #A9F4LA; 
     text-align: center;
 }
 
@@ -31,7 +31,7 @@ body {
 
 .form_btn {
     padding: 1em;
-    background-color: blue;
+    background-color: #9E9E9E ;
     color: white;
     margin-top:1em;
     width:100%;
@@ -42,7 +42,7 @@ body {
     width: 80%;
     margin: 0 auto;
     padding:2em;
-    background-color: #FAFAFA; 
+    background-color: #A9F4LA; 
     text-align: center;
 }
 
@@ -58,4 +58,14 @@ body {
 .acc_container {
     margin: 0 auto;
     width: 50%;
+}
+
+.view_transactions{
+    height: 20em;
+    background-color: #A9F4LA;
+    overflow-y: scroll;
+}
+
+.account_details {
+    text-align: center;
 }

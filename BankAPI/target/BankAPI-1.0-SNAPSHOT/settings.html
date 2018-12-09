@@ -16,22 +16,22 @@ and open the template in the editor.
         <div class="settings_container">
             <div class="password_form">
                 <h1>Change Password</h1>
-                <form method="POST" action="http://localhost:8080/api/bankapp/user/account/password">
-                    <input class="form_input" placeholder="password" type="password" name="password"/>
+                <form>
+                    <input class="form_input" id="password" placeholder="password" type="password" name="password"/>
                     <br>
-                    <input class="form_input" placeholder="confirm password" type="password" name="con_password"/>
+                    <input class="form_input" id="con_password" placeholder="confirm password" type="password" name="con_password"/>
                     <br>
-                    <input class="form_input" placeholder="new password" type="password" name="new_password"/>
+                    <input class="form_input" id="new_password" placeholder="new password" type="password" name="new_password"/>
                     <br>
-                    <input class="form_btn" type="submit" value="Submit"/>
+                    <input class="form_btn" type="submit" id="change_password" value="Submit"/>
                 </form>
             </div>
             <div class="address_form">
                 <h1>Change Address</h1>
-                <form method="POST" action="http://localhost:8080/api/bankapp/user/account/address">
-                    <input class="form_input" placeholder="address" type="text" name="address"/>
+                <form>
+                    <input class="form_input" id="address" placeholder="address" type="text" name="address"/>
                     <br>
-                    <input class="form_btn" type="submit" value="Submit"/>
+                    <input class="form_btn" type="submit" id="change_address" value="Submit"/>
                 </form>
             </div>
         </div>
@@ -58,7 +58,39 @@ and open the template in the editor.
                 }
                 
             });
-    
+            
+        $("#change_password").click(function(){
+        
+                var password = $('#password').val();
+                var con_password = $('#con_password').val();
+                var new_password = $('#new_password').val();
+                var passwordObj = '{"password":"'+password+'","con_password":"'+con_password+'","new_pasword":"'+new_password+'"}';
+                    
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        url: "http://localhost:8080/api/bankapp/user/account/password",
+                        dataType: "json",
+                        data: passwordObj
+                        
+                    });
+                    
+        });
+        
+        $("#change_address").click(function(){
+                var address = $('#address').val();
+                var addressObj = '{"address":"'+address+'"}';
+                    
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        url: "http://localhost:8080/api/bankapp/user/account/address",
+                        dataType: "json",
+                        data: addressObj
+                        
+                    });
+        });
+        
     });
     
     

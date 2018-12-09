@@ -12,11 +12,9 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -189,8 +187,6 @@ public class BankService {
         String email = jobject.get("email").getAsString();
         String password = jobject.get("password").getAsString();
         
-        System.out.println(email);
-        System.out.println(password);
         
         res.userLogIn(email, password);
         
@@ -242,6 +238,7 @@ public class BankService {
         
     }
     
+    // Entry Point 16: Bank - Set Active Account
     @POST
     @Path("bank/account/active")
     @Consumes(MediaType.APPLICATION_JSON)

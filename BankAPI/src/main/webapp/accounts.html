@@ -13,7 +13,6 @@ and open the template in the editor.
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
     <body>
-        <div>Select an Account</div>
         <div class="acc_container">
             <div class="accounts"></div>
             <button class="form_btn" id="create_account">Create New Bank Account</button>
@@ -82,9 +81,6 @@ and open the template in the editor.
                 
                 var account = '{"account_type":"'+account_type+'"}';
                 
-                var accObj = {
-                        "account_type": account_type
-                    };
                     
                     $.ajax({
                         type: 'POST',

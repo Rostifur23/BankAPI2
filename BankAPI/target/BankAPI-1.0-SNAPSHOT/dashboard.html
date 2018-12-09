@@ -15,15 +15,17 @@ and open the template in the editor.
     <body>
         <a href="http://localhost:8080/accounts.html">Back to Accounts</a>
         <a href="http://localhost:8080/settings.html">View Settings</a>
-        <input class="form_btn" id="log_out" type="submit" value="Log Out"/>
-        <div>User Dashboard</div>
         <div class="acc_container">
             <div class="account_details">
+                
                 <h3 class="name"></h3>
+                <div class="address"></div>
+                <br>
                 <div class="account_num"></div>
                 <div class="sort_code"></div>
                 <div class="balance"></div>
                 <div class="account_type"></div>
+                
             </div>
             <div class="options">
                 <button class="form_btn" id="display_btn">Make Payment</button>
@@ -52,6 +54,7 @@ and open the template in the editor.
                         
                     </div>
                 </div>
+                <input class="form_btn" id="log_out" type="submit" value="Log Out"/>
             </div>
         </div> 
     </body>
@@ -86,7 +89,8 @@ and open the template in the editor.
                 success: function (data){
                     
                     
-                    $(".name").html(data.cust_name);
+                    $(".name").html(data.name);
+                    $(".address").html(data.address);
                     
                 }
                 
@@ -101,16 +105,16 @@ and open the template in the editor.
                 success: function (data){
                     // loop through data outputting each account
                     
-                    $(".account_num").html(data.account_num);
-                    $(".sort_code").html(data.sort_code);
-                    $(".balance").html(data.balance);
-                    $(".account_type").html(data.account_type);
+                    $(".account_num").html("Account Number: "+data.account_num);
+                    $(".sort_code").html("Sort Code: "+data.sort_code);
+                    $(".balance").html("Current Balance: "+data.balance);
+                    $(".account_type").html("Account Type: "+data.account_type);
                     
                 }
                 
             });
             
-            /*
+            
             $.ajax({
                 type: 'GET',
                 url: "http://localhost:8080/api/bankapp/account/transactions",
@@ -122,7 +126,7 @@ and open the template in the editor.
                     var html = "";
                     for (i in data) {
                         console.log(data[i]);
-                        html = html; // add more here 
+                        html = html+'<div><h3>'+data[i].trans_type+'</h3><h4>'+data[i].new_balance+'</h4><p>'+data[i].trans_desc+'</p><p>'+data[i].trans_date+'</p></div><hr>'; // add more here 
                                     
                     }
                     $(".transactions").html(html);   
@@ -130,7 +134,7 @@ and open the template in the editor.
                     
                 }
                 
-            });*/
+            });
         
             $("#log_out").click(function(){
                 $.ajax({
