@@ -112,17 +112,87 @@ public class BankResource {
         return transactions;
     }
     
-    public void makeLodgment(String lodgment){
+    public void makeLodgment(String trans_date, String desc, Double amount){
         // update neccessary tables and store lodgment 
+        double account_bal;
+        int trans_to = 0;
+        String trans_type = "Lodgment";
+        int id = transArrayList.size()+1;
+        Transaction trans;
         
+        for(Account a : accArrayList){
+            if(a.getAccount_id() == getActiveAccount()){
+                account_bal = a.getBalance();
+                account_bal = account_bal + amount;
+                a.setBalance(account_bal);
+                
+                trans = new Transaction(id, trans_date, desc, account_bal, trans_type, trans_to, getActiveAccount());
+                transArrayList.add(trans);
+            }
+        }
     }
     
-    public void makeWithdrawal(){
+    public void makeWithdrawal(String trans_data, String desc, Double amount){
         // update neccessary tables and store withdrawal 
+        double account_bal;
+        int trans_to = 0;
+        String trans_type = "Withdrawal";
+        int id = transArrayList.size()+1;
+        Transaction trans;
+        
+        for(Account a : accArrayList){
+            if(a.getAccount_id() == getActiveAccount()){
+                account_bal = a.getBalance();
+                account_bal = account_bal - amount;
+                a.setBalance(account_bal);
+                
+                trans = new Transaction(id, trans_data, desc, account_bal, trans_type, trans_to, getActiveAccount());
+                transArrayList.add(trans);
+            }
+        }
     }
     
-    public void makeTransfer(){
+    public void makeTransfer(String trans_data, String desc, Double amount, Integer trans_to){
         // update neccessary tables and store transfer 
+        double account_bal;
+        String trans_type = "Transfer";
+        int id = transArrayList.size()+1;
+        Transaction trans;
+        
+          //get bank account, balance
+          for(Account a : accArrayList){
+            if(a.getAccount_id() == getActiveAccount()){
+                account_bal = a.getBalance();
+                
+                //check transfer is possible
+                account_bal = account_bal - amount;
+                
+                if(account_bal >= 0){
+                    a.setBalance(account_bal);
+
+                    for(Account b : accArrayList){
+                        if(b.getAccount_num() == trans_to){
+                                account_bal = b.getBalance();
+                                account_bal = account_bal + amount;
+                                b.setBalance(account_bal);
+
+                                trans = new Transaction(id, trans_data, desc, account_bal, trans_type, trans_to, getActiveAccount());
+                                transArrayList.add(trans);
+                        }
+
+                        else{
+                            System.out.print("Transaction failed!");
+                        }
+
+                    }
+                }
+                
+                else{
+                    System.out.print("Insufficient balance!");
+                }
+          }
+        
+        }
     }
     
     public void userLogIn(String email, String password){

@@ -136,11 +136,8 @@ public class BankService {
         String type = jobject.get("type").getAsString();
         String amount = jobject.get("amount").getAsString();
         
-        
-        System.out.println(date);
-        System.out.println(desc);
-        System.out.println(type);
-        System.out.println(amount);
+        Double amt = Double.parseDouble(amount);
+        res.makeLodgment(date, desc, amt);
         
     }
     
@@ -157,12 +154,8 @@ public class BankService {
         String type = jobject.get("type").getAsString();
         String amount = jobject.get("amount").getAsString();
         
-        
-        System.out.println(date);
-        System.out.println(desc);
-        System.out.println(type);
-        System.out.println(amount);
-        
+        Double amt = Double.parseDouble(amount);
+        res.makeWithdrawal(date, desc, amt);
     }
     
     // Entry Point 10: Transaction (Transfer)
@@ -179,11 +172,9 @@ public class BankService {
         String amount = jobject.get("amount").getAsString();
         String account_num = jobject.get("trans_to").getAsString();
         
-        System.out.println(date);
-        System.out.println(desc);
-        System.out.println(type);
-        System.out.println(amount);
-        System.out.println(account_num);
+        Double amt = Double.parseDouble(amount);
+        int accountNum = Integer.parseInt(account_num);
+        res.makeTransfer(date, desc, amt, accountNum);
         
     }
     
