@@ -34,7 +34,7 @@ and open the template in the editor.
                             <option value="lodgement">Lodgement</option>
                             <option value="transfer">Transfer</option>
                         </select>
-                        <input class="form_input" placeholder="Amount" id="amt" type="number" name="amt"/>
+                        <input class="form_input" placeholder="Amount" id="amt" type="number" name="amt" step=".01"/>
                         <br>
                         <input class="form_input" placeholder="Description" id="desc" type="text" name="desc"/>
                         <br>
@@ -74,20 +74,6 @@ and open the template in the editor.
                 }
                 
             });
-            
-            /*
-            $.ajax({
-                type: 'GET',
-                url: "http://localhost:8080/api/bankapp/user/session",
-                dataType: 'json', // data type of response
-                contenttype: 'application/json',
-                success: function (data){
-                    var uid = data;
-                    
-                }
-                
-            });
-            */
             
             $(".make_payment").hide();
             $(".view_transactions").hide();
@@ -175,13 +161,8 @@ and open the template in the editor.
                 var account_num = $('#acc_num').val();
                 
                 if(transaction == 'Transfer'){
-                    var transObj = {
-                        "date": date,
-                        "description": description,
-                        "trans_type": transaction,
-                        "amount": amount,
-                        "trans_to": account_num
-                    };
+                    
+                    var transObj = '{"date":"'+date+'","desc":"'+description+'","type":"'+transaction+'","amount":"'+amount+'","trans_to":"'+account_num+'"}';
                     
                     $.ajax({
                         type: 'POST',
@@ -194,12 +175,8 @@ and open the template in the editor.
                 }
                 
                 else if(transaction == 'Lodgement'){
-                    var transObj = {
-                        "date": date,
-                        "description": description,
-                        "trans_type": transaction,
-                        "amount": amount
-                    };
+                    
+                    var transObj = '{"date":"'+date+'","desc":"'+description+'","type":"'+transaction+'","amount":"'+amount+'"}';
                     
                     $.ajax({
                         type: 'POST',
@@ -212,12 +189,8 @@ and open the template in the editor.
                 }
                 
                 else if(transaction == 'Withdrawal'){
-                    var transObj = {
-                        "date": date,
-                        "description": description,
-                        "trans_type": transaction,
-                        "amount": amount
-                    };
+                    
+                    var transObj = '{"date":"'+date+'","desc":"'+description+'","type":"'+transaction+'","amount":"'+amount+'"}';
                     
                     $.ajax({
                         type: 'POST',

@@ -154,7 +154,7 @@ public class BankResource {
     public Account getAccountDetails(){
         
         for (Account a : accArrayList){
-            if(a.getAccount_id() == getSessionId()){
+            if(a.getAccount_id() == getActiveAccount()){
                 return a;
             }
         }

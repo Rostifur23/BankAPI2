@@ -131,8 +131,16 @@ public class BankService {
         
         JsonElement jelement = new JsonParser().parse(lodgment);
         JsonObject  jobject = jelement.getAsJsonObject();
+        String date = jobject.get("date").getAsString();
+        String desc = jobject.get("desc").getAsString();
+        String type = jobject.get("type").getAsString();
+        String amount = jobject.get("amount").getAsString();
         
-        System.out.println(lodgment);
+        
+        System.out.println(date);
+        System.out.println(desc);
+        System.out.println(type);
+        System.out.println(amount);
         
     }
     
@@ -144,8 +152,16 @@ public class BankService {
         
         JsonElement jelement = new JsonParser().parse(withdrawal);
         JsonObject  jobject = jelement.getAsJsonObject();
+        String date = jobject.get("date").getAsString();
+        String desc = jobject.get("desc").getAsString();
+        String type = jobject.get("type").getAsString();
+        String amount = jobject.get("amount").getAsString();
         
-        System.out.println(withdrawal);
+        
+        System.out.println(date);
+        System.out.println(desc);
+        System.out.println(type);
+        System.out.println(amount);
         
     }
     
@@ -157,8 +173,17 @@ public class BankService {
         
         JsonElement jelement = new JsonParser().parse(transfer);
         JsonObject  jobject = jelement.getAsJsonObject();
+        String date = jobject.get("date").getAsString();
+        String desc = jobject.get("desc").getAsString();
+        String type = jobject.get("type").getAsString();
+        String amount = jobject.get("amount").getAsString();
+        String account_num = jobject.get("trans_to").getAsString();
         
-        System.out.println(transfer);
+        System.out.println(date);
+        System.out.println(desc);
+        System.out.println(type);
+        System.out.println(amount);
+        System.out.println(account_num);
         
     }
     
