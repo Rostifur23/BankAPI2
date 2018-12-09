@@ -31,7 +31,7 @@ and open the template in the editor.
                 <button class="form_btn" id="display_btn">Make Payment</button>
                 <div class="make_payment">
                     <form>
-                        <select id="payment">
+                        <select id="payment" onchange="showContent()">
                             <option value="withdrawal">Withdrawal</option>
                             <option value="lodgement">Lodgement</option>
                             <option value="transfer">Transfer</option>
@@ -80,6 +80,7 @@ and open the template in the editor.
             
             $(".make_payment").hide();
             $(".view_transactions").hide();
+            $("#transfer_option").hide();
         
             $.ajax({
                 type: 'GET',
@@ -209,4 +210,23 @@ and open the template in the editor.
             });
        
     });
+    
+    
+    function showContent() {
+        
+        
+        var transaction = $('#payment :selected').text();
+        
+        if(transaction == "Transfer"){
+            $("#transfer_option").show( "slow", function() {
+                
+            });
+        }
+        else{
+            $("#transfer_option").hide( "slow", function() {
+                
+            });
+        }
+        
+    }
 </script>

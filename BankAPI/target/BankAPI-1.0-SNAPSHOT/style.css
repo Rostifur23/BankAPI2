@@ -69,3 +69,11 @@ body {
 .account_details {
     text-align: center;
 }
+
+.make_payment {
+    padding: 1em;
+}
+
+.form_content {
+    padding: 1em;
+}
