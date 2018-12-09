@@ -46,6 +46,7 @@ public class Account implements Serializable {
     private Customer cust;
     
 
+    //Was sort_code, account_num, balance, account_type, account_id, cust_id
     public Account(int account_id, int sort_code, int account_num, double balance, String account_type) {
         this.account_id =  account_id;
         this.sort_code = sort_code;
@@ -117,35 +118,6 @@ public class Account implements Serializable {
 
     public void setAccount_type(String account_type) {
         this.account_type = account_type;
-    }
-    
-    public static void main(String [] args){
-        EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("persistance_connect");
-        EntityManager entitymanager = emfactory.createEntityManager();
-        entitymanager.getTransaction().begin();
-        
-        Account acco = new Account();
-        
-        //entitymanager.persist(acco);
-        
-        Customer cust2 = new Customer(1, "name", "address", "email@email", "password");
-        
-        acco.setCustomer(cust2);
-        
-        List<Account> customers = new ArrayList<>();
-        
-        customers.add(acco);
-        
-        cust2.setAccounts(customers);
-        
-        entitymanager.persist(cust2);
-        
-        
-        
-        entitymanager.getTransaction().commit();
-        entitymanager.close();
-        emfactory.close();
-    }
-    
+    }   
     
 }

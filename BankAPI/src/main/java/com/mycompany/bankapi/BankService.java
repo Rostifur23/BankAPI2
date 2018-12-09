@@ -6,16 +6,12 @@
 package com.mycompany.bankapi;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -41,7 +37,7 @@ public class BankService {
             String uid) {
         
         //Account a1 = new Account(1234, 12345678, 123.47, "Current", 1, 1);
-        Account a1 = new Account(1, 1234, 12345678, 123.47, "current");
+        Account a1 = new Account(1, 1234, 12345678, 123.47, "Current");
         //Account a2 = new Account(5678, 87654321, 4150.34, "Savings", 1, 1);
         Account a2 = new Account(2, 5678, 87654321, 4160.34, "Savings");
         
@@ -49,6 +45,7 @@ public class BankService {
         accounts.add(a1);
         accounts.add(a2);
         
+        res.getBankAccounts(Integer.parseInt(uid));
         String output = "This entry point will return all bank accounts for the user: " + uid;
         return Response.status(200).entity(gson.toJson(accounts)).build();
         
@@ -66,6 +63,9 @@ public class BankService {
         System.out.println(confirmPassword);
         System.out.println(address);
         
+        
+        res.createUserAccount(name, email, password, address);
+        
     }
     
     // Entry Point 3: User - Delete Account
@@ -73,8 +73,9 @@ public class BankService {
     @Path("/user/account/{uid}")
     public void deleteUserAccount(@PathParam("uid") 
             String uid) {
-        int id = Integer.parseInt(uid);
-        System.out.println(uid);
+        
+        res.deleteUser();
+        
     }
     
     // Entry Point 4: User - Account Details
@@ -87,6 +88,11 @@ public class BankService {
         int id = Integer.parseInt(uid);
         
         Customer cust = new Customer(id, "name", "address", "ross@email.com", "password");
+        
+        ArrayList customer = new ArrayList<>();
+        customer.add(cust);
+        
+        res.getUserDetails();
         
         String output = "This entry point will return the account details for the user: " + uid;
         return Response.status(200).entity(gson.toJson(cust)).build();
@@ -101,14 +107,16 @@ public class BankService {
         System.out.println(password);
         System.out.println(confirmPassword);
         System.out.println(newPassword);
+        res.updatePassword(password, confirmPassword, newPassword);
     }
     
     // Entry Point 6: User - Edit Account (Address)
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("user/account/address")
-    public void updateAddress(@FormParam("address") String address) {
+    public void updateAddress(@FormParam("address") String address, @FormParam("newAddress") String newAddress) {
         System.out.println(address);
+        res.updateAddress(address, newAddress);
     }
     
     // Entry Point 7: Account - Transaction (History)
@@ -116,6 +124,8 @@ public class BankService {
     @Path("account/transactions/{account_id}")
     public Response getAccountTransactions(@PathParam("account_id") 
             String accountId) {
+        
+        res.getTransactions();
         
         String output = "This entry point will return all transactions related to the account: " + accountId;
         return Response.status(200).entity(output).build();
@@ -129,6 +139,8 @@ public class BankService {
     public void accountLodgment(String lodgment){
         
         System.out.println(lodgment);
+        
+        res.makeLodgment(lodgment);
         
     }
     
@@ -189,9 +201,11 @@ public class BankService {
     @POST
     @Path("bank/account")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void createBankAccount(String bankAccountDetails){
+    public void createBankAccount(String account_type){
         
-        System.out.println(bankAccountDetails);
+        //System.out.println(bankAccountDetails);
+        //Pass in Form Params
+        res.createBankAccount(account_type);
         
     }
     
@@ -214,6 +228,7 @@ public class BankService {
         int id = Integer.parseInt(accountId);
         Account a1 = new Account(id, 1234, 12345678, 123.47, "Current");
         //Account a1 = new Account(1234, 12345678, 123.47, "Current", id, 1);
+        res.getAccountDetails(id);
         return Response.status(200).entity(gson.toJson(a1)).build();
         
     } 

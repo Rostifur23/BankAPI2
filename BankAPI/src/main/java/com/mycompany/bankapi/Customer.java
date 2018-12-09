@@ -93,40 +93,16 @@ public class Customer implements Serializable {
     }
     
     @OneToMany(targetEntity=Account.class, cascade = CascadeType.ALL, mappedBy="cust")
-    private List<Account> accounts;
+    private ArrayList<Account> accounts;
     
-    public void setAccounts(List<Account> accountlist){
+    public void setAccounts(ArrayList<Account> accountlist){
         this.accounts = accountlist;
     }
     
     @XmlElementWrapper(name="account")
     @XmlElementRef()
-    public List<Account> getAccounts(){
+    public ArrayList<Account> getAccounts(){
         return accounts;
-    }
-    
-    public static void main(String[] args){
-        
-        EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("persistance_connect");
-        EntityManager entitymanager = emfactory.createEntityManager();
-        entitymanager.getTransaction().begin();
-                
-        Account acc = new Account();
-
-        entitymanager.persist(acc);
-
-        Customer cust1 = new Customer(1, "name", "address", "email@email", "password");
-
-        acc.setCustomer(cust1);
-
-        // entitymanager.persist(trans1);
-        ArrayList<Account> accounts = new ArrayList<>();
-        
-        accounts.add(acc);
-        
-        entitymanager.getTransaction().commit();
-        entitymanager.close();
-        emfactory.close(); 
     }
         
 }
