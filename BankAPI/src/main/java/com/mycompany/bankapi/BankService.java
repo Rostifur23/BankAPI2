@@ -6,6 +6,9 @@
 package com.mycompany.bankapi;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -34,10 +37,9 @@ public class BankService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBankAccounts() {
         
-        //ArrayList<Account> accounts = res.getBankAccounts();
+        ArrayList<Account> accounts = res.getBankAccounts();
         
-        
-        return Response.status(200).entity(gson.toJson("bank accounts here")).build();
+        return Response.status(200).entity(gson.toJson(accounts)).build();
         
     }
     
@@ -135,20 +137,7 @@ public class BankService {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public void userLogIn(@FormParam("email") String email, @FormParam("password") String password){
         
-        // set the userSession Variable here
-        System.out.println(email);
-        System.out.println(password);
-        
         res.userLogIn(email, password);
-        
-    }
-    
-    @GET
-    @Path("/user/session")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getSession() {
-        int userSession = res.getSessionId();
-        return Response.status(200).entity(gson.toJson(userSession)).build();
         
     }
     
@@ -167,20 +156,14 @@ public class BankService {
     @Consumes(MediaType.APPLICATION_JSON)
     public void createBankAccount(String bankAccountDetails){
         
-        System.out.println(bankAccountDetails);
+        JsonElement jelement = new JsonParser().parse(bankAccountDetails);
+        JsonObject  jobject = jelement.getAsJsonObject();
+        String account_type = jobject.get("account_type").getAsString();
+        System.out.println(account_type);
         
     }
     
-    // Entry Point 14: Bank - Delete Account
-    @DELETE
-    @Path("/bank/account")
-    public void deleteBankAccunt() {
-        
-        // use activeAccount
-        
-    }
-    
-    // Entry Point 15: Bank - Account Details
+    // Entry Point 14: Bank - Account Details
     @GET
     @Path("/bank/account")
     @Produces(MediaType.APPLICATION_JSON)
@@ -189,6 +172,17 @@ public class BankService {
         // use activeAccount
         
         return Response.status(200).entity(gson.toJson("put account here")).build();
+        
+    }
+    
+    
+    // Entry Point 15: User - Get Session
+    @GET
+    @Path("/user/session")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSession() {
+        int userSession = res.getSessionId();
+        return Response.status(200).entity(gson.toJson(userSession)).build();
         
     }
     

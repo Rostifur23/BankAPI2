@@ -146,8 +146,8 @@ public class BankResource {
         double balance = 0.0;
         int id = accArrayList.size()+1;
         
-        Account acc = new Account(id, sort_code, account_num, balance, account_type, getSessionId());
-        accArrayList.add(acc);
+        Account a = new Account(id, sort_code, account_num, balance, account_type, getSessionId());
+        accArrayList.add(a);
         
     }
     

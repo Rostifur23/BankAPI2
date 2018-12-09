@@ -80,6 +80,8 @@ and open the template in the editor.
                 
                 var account_type = $('#acc_type :selected').text();
                 
+                var account = '{"account_type":"'+account_type+'"}';
+                
                 var accObj = {
                         "account_type": account_type
                     };
@@ -89,7 +91,7 @@ and open the template in the editor.
                         contentType: 'application/json',
                         url: "http://localhost:8080/api/bankapp/bank/account",
                         dataType: "json",
-                        data: accObj
+                        data: account
                         
                     });
                 
