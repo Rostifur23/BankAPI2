@@ -32,6 +32,22 @@ and open the template in the editor.
 <script>
     $(document).ready(function(){
         
+        $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/api/bankapp/user/session",
+                dataType: 'json', // data type of response
+                contenttype: 'application/json',
+                success: function (data){
+                    var uid = data;
+                    console.log(uid);
+                    if(uid == 0){
+                        location.replace("http://localhost:8080");
+                    }
+                    
+                }
+                
+            });
+        
         $(".form_content").hide();
         
             $.ajax({

@@ -5,47 +5,52 @@
  */
 package com.mycompany.bankapi;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
- * @author Rostifur
+ * @author Aaron
  */
-public class Customer {
-    int uid;
-    String cust_name;
-    String cust_address;
-    String email;
-    String password;
 
-    public Customer(int uid, String cust_name, String cust_address, String email, String password) {
-        this.uid = uid;
-        this.cust_name = cust_name;
-        this.cust_address = cust_address;
+@XmlRootElement
+public class Customer {
+    
+    private int customer_id;
+    private String name;
+    private String address;
+    private String email;
+    private String password;
+
+    public Customer(int customer_id, String name, String address, String email, String password) {
+        this.customer_id = customer_id;
+        this.name = name;
+        this.address = address;
         this.email = email;
         this.password = password;
     }
 
-    public int getUid() {
-        return uid;
+    public int getCustomer_id() {
+        return customer_id;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
     }
 
-    public String getCust_name() {
-        return cust_name;
+    public String getName() {
+        return name;
     }
 
-    public void setCust_name(String cust_name) {
-        this.cust_name = cust_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getCust_address() {
-        return cust_address;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCust_address(String cust_address) {
-        this.cust_address = cust_address;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getEmail() {
@@ -65,5 +70,6 @@ public class Customer {
     }
     
     
-    
+      
+        
 }

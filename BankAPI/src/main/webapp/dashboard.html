@@ -15,6 +15,7 @@ and open the template in the editor.
     <body>
         <a href="http://localhost:8080/accounts.html">Back to Accounts</a>
         <a href="http://localhost:8080/settings.html">View Settings</a>
+        <input class="form_btn" id="log_out" type="submit" value="Log Out"/>
         <div>User Dashboard</div>
         <div class="acc_container">
             <div class="account_details">
@@ -57,6 +58,22 @@ and open the template in the editor.
 </html>
 <script>
     $(document).ready(function(){
+        
+        $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/api/bankapp/user/session",
+                dataType: 'json', // data type of response
+                contenttype: 'application/json',
+                success: function (data){
+                    var uid = data;
+                    console.log(uid);
+                    if(uid == 0){
+                        location.replace("http://localhost:8080");
+                    }
+                    
+                }
+                
+            });
             
             /*
             $.ajax({
@@ -128,6 +145,14 @@ and open the template in the editor.
                 }
                 
             });*/
+        
+            $("#log_out").click(function(){
+                $.ajax({
+                    type: 'DELETE',
+                    url: "http://localhost:8080/api/bankapp/user/logout"
+                });
+            });
+        
             
             $("#display_btn").click(function(){
                 $(".make_payment").slideToggle( "slow", function() {

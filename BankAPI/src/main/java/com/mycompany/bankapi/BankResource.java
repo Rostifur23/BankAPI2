@@ -6,6 +6,7 @@
 package com.mycompany.bankapi;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -13,61 +14,107 @@ import java.util.ArrayList;
  * @author Rostifur
  */
 public class BankResource {
-    
-    ArrayList<Account> accounts = new ArrayList();
-    ArrayList<Customer> customers = new ArrayList();
-    public int sessionId;
-    private int activeAccount;
-
-    public BankResource(int sessionId, int activeAccount) {
-        this.sessionId = sessionId;
-        this.activeAccount = activeAccount;
-    }
-
-    
+    private static int sessionId = 0;
+    private static int activeAccount = 0;
+    private static ArrayList<Customer> custArrayList = new ArrayList<>();
+    private static ArrayList<Account> accArrayList = new ArrayList<>();
+    private static ArrayList<Transaction> transArrayList = new ArrayList<>();
     
     public ArrayList getBankAccounts(){
         
+        ArrayList<Account> accounts = new ArrayList<>();
         
-        Account a1 = new Account(1234, 12345678, 123.47, "Current", 1, 1);
-        Account a2 = new Account(5678, 87654321, 4150.34, "Savings", 1, 1);
+        for (Account a : accArrayList) {
+            if(a.getCust_id() == getSessionId()){
+                accounts.add(a);
+            }
+            else{
+                System.out.println("No account found");
+            }
+        }
         
-        // get all account associated to the uid and return
-        
-        accounts.add(a1);
-        accounts.add(a2);
         return accounts;
+    }
+    
+    public void createUserAccount(String name, String email, String password, String address){
+        // create new user account in DB
+        int id = custArrayList.size()+1;
+        
+        System.out.println(id);
+        
+        Customer cust = new Customer(id, name, address, email, password);
+        custArrayList.add(cust);
+        setSessionId(id);
+        
+        System.out.println(cust.getCustomer_id());
+        System.out.println(cust.getName());
         
     }
     
-    public void createUserAccount(){
-        // create new user account in DB
-    }
-    
-    public void deleteUser(int uid){
+    public void deleteUser(){
         // delete user from database here
+        
+        for (Customer c : custArrayList) {
+            if(c.getCustomer_id() == getSessionId()){
+                custArrayList.remove(c);
+            }
+            else{
+                System.out.println("No user found");
+            }
+        }
     }
     
-    public ArrayList getUserDetails(int uid){
-        ArrayList details = new ArrayList();
-        return details;
+    public Customer getUserDetails(){
+        
+        for (Customer c : custArrayList){
+            if(c.getCustomer_id() == getSessionId()){
+                return c;
+            }
+        }
+        
+        return null;
+        
     }
     
-    public void updatePassword(){
+    public void updatePassword(String password, String confirmPassword, String newPassword){
         // update users password in DB
+        if(password.equals(confirmPassword)){
+            for(Customer c : custArrayList){
+                if(c.getCustomer_id() == getSessionId()){
+                    if(password.equals(c.getPassword())){
+                        c.setPassword(newPassword);
+                    }
+                }
+                
+            }
+        }
+        
     }
     
-    public void updateAddress(){
+    public void updateAddress(String newAddress){
         // update users address in DB
+        for (Customer c : custArrayList){
+            if(c.getCustomer_id() == getSessionId()){
+                c.setAddress(newAddress);
+            }
+        }
     }
     
-    public ArrayList getTransactions(int accountId){
-        ArrayList transactions = new ArrayList();
+    public ArrayList getTransactions(){
+        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+        
+        for(Transaction t : transArrayList){
+            if(t.getAccount_id() == getActiveAccount()){
+                transactions.add(t);
+            }
+        }
+        
         return transactions;
     }
     
-    public void makeLodgment(){
+    public void makeLodgment(String lodgment){
         // update neccessary tables and store lodgment 
+        
     }
     
     public void makeWithdrawal(){
@@ -78,31 +125,60 @@ public class BankResource {
         // update neccessary tables and store transfer 
     }
     
-    public int userLogIn(){
-        // update neccessary tables and store lodgment 
-        int uid = 0;
-        return uid;
+    public void userLogIn(String email, String password){
+        for (Customer c : custArrayList){
+            System.out.println(c.getEmail());
+            System.out.println(c.getPassword());
+            if((c.getEmail().equals(email) && (c.getPassword().equals(password)))){
+                setSessionId(c.getCustomer_id());
+            }
+        }
     }
     
-    public void createBankAccount(){
+    public void createBankAccount(String account_type){
         // create new bank account in the DB 
+        
+        //Random number generation
+        Random rand = new Random();
+        
+        int sort_code = rand.nextInt(999999999) + 1;
+        int account_num = rand.nextInt(999999999) + 1;
+        double balance = 0.0;
+        int id = accArrayList.size()+1;
+        
+        Account acc = new Account(id, sort_code, account_num, balance, account_type, getSessionId());
+        accArrayList.add(acc);
+        
     }
     
-    public void deleteBankAccount(){
-        // delete a specified bank account in the DB 
+    public Account getAccountDetails(){
+        
+        for (Account a : accArrayList){
+            if(a.getAccount_id() == getSessionId()){
+                return a;
+            }
+        }
+        return null;
     }
     
-    public ArrayList getAccountDetails(int accountId){
-        ArrayList accountDetails = new ArrayList();
-        return accountDetails;
+    public void setSessionId(int sessionId){
+        this.sessionId = sessionId;
     }
     
-    public void setSession(int id){
-        this.sessionId = id;
+    public int getSessionId(){
+        return sessionId;
     }
     
-    public int getSession(){
-        return this.sessionId;
+    public void setActiveAccount(int account_id){
+        this.activeAccount = account_id;
+    }
+    
+    public int getActiveAccount(){
+        return activeAccount;
+    }
+    
+    public void logOut(){
+        this.sessionId = 0;
     }
     
 }

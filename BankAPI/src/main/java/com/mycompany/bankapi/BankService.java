@@ -25,7 +25,7 @@ import javax.ws.rs.core.Response;
 @Path("/bankapp")
 public class BankService {
     
-    BankResource res = new BankResource(0, 0);
+    BankResource res = new BankResource();
     Gson gson = new Gson();
     
     // Entry Point 1: Account Selection
@@ -34,12 +34,10 @@ public class BankService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBankAccounts() {
         
-        // use userSession
-        
-        ArrayList<Account> accounts = res.getBankAccounts();
+        //ArrayList<Account> accounts = res.getBankAccounts();
         
         
-        return Response.status(200).entity(gson.toJson(accounts)).build();
+        return Response.status(200).entity(gson.toJson("bank accounts here")).build();
         
     }
     
@@ -49,13 +47,7 @@ public class BankService {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public void createUserAccount(@FormParam("name") String name, @FormParam("email") String email, @FormParam("password") String password, @FormParam("con_password") String confirmPassword, @FormParam("address") String address){
         
-        System.out.println(name);
-        System.out.println(email);
-        System.out.println(password);
-        System.out.println(confirmPassword);
-        System.out.println(address);
-        int session = 1;
-        res.setSession(session);
+        res.createUserAccount(name, email, password, address);
         
     }
     
@@ -146,8 +138,8 @@ public class BankService {
         // set the userSession Variable here
         System.out.println(email);
         System.out.println(password);
-        int session = 1;
-        res.setSession(session);
+        
+        res.userLogIn(email, password);
         
     }
     
@@ -155,18 +147,17 @@ public class BankService {
     @Path("/user/session")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSession() {
-        int userSession = res.getSession();
+        int userSession = res.getSessionId();
         return Response.status(200).entity(gson.toJson(userSession)).build();
         
     }
     
     // Entry Point 12: User - Log Out
-    @POST
+    @DELETE
     @Path("/user/logout")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void userLogOut(String uid){
+    public void userLogOut(){
         
-        System.out.println(uid);
+        res.logOut();
         
     }
     
@@ -196,8 +187,8 @@ public class BankService {
     public Response getBankAccountDetails() {
         
         // use activeAccount
-        Account a1 = new Account(1234, 12345678, 123.47, "Current", 1, 1);
-        return Response.status(200).entity(gson.toJson(a1)).build();
+        
+        return Response.status(200).entity(gson.toJson("put account here")).build();
         
     }
     
