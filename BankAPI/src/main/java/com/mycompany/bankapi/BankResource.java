@@ -14,10 +14,28 @@ import java.util.ArrayList;
  */
 public class BankResource {
     
-    public ArrayList getBankAccounts(int uid){
+    ArrayList<Account> accounts = new ArrayList();
+    ArrayList<Customer> customers = new ArrayList();
+    public int sessionId;
+    private int activeAccount;
+
+    public BankResource(int sessionId, int activeAccount) {
+        this.sessionId = sessionId;
+        this.activeAccount = activeAccount;
+    }
+
+    
+    
+    public ArrayList getBankAccounts(){
+        
+        
+        Account a1 = new Account(1234, 12345678, 123.47, "Current", 1, 1);
+        Account a2 = new Account(5678, 87654321, 4150.34, "Savings", 1, 1);
         
         // get all account associated to the uid and return
-        ArrayList accounts = new ArrayList();
+        
+        accounts.add(a1);
+        accounts.add(a2);
         return accounts;
         
     }
@@ -77,6 +95,14 @@ public class BankResource {
     public ArrayList getAccountDetails(int accountId){
         ArrayList accountDetails = new ArrayList();
         return accountDetails;
+    }
+    
+    public void setSession(int id){
+        this.sessionId = id;
+    }
+    
+    public int getSession(){
+        return this.sessionId;
     }
     
 }

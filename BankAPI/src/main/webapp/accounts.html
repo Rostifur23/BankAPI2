@@ -16,11 +16,23 @@ and open the template in the editor.
         <div>Select an Account</div>
         <div class="acc_container">
             <div class="accounts"></div>
+            <button class="form_btn" id="create_account">Create New Bank Account</button>
+            <div class="form_content">
+                <form action="" method="POST">
+                    <select id="acc_type">
+                        <option value="current">Current</option>
+                        <option value="savings">Savings</option>
+                    </select>
+                    <input class="form_btn" id="submitBtn" type="submit" value="Submit"/>
+                </form>
+            </div>
         </div>
     </body>
 </html>
 <script>
     $(document).ready(function(){
+        
+        $(".form_content").hide();
         
             $.ajax({
                 type: 'GET',
@@ -32,14 +44,38 @@ and open the template in the editor.
                     console.log(data);
                     var html = "";
                     for (i in data) {
-                        console.log(data[i]);
                         html = html+'<form><input class="form_btn" type="submit" value="'+data[i].account_type+' : '+data[i].account_num+'"/></form>'
                                     
                     }
-                    $(".accounts").html(html);   
+                    $(".accounts").html(html);
                     
                     
                 }
+                
+            });
+            
+            $("#create_account").click(function(){
+                $(".form_content").slideToggle( "slow", function() {
+                    
+                });
+            });
+            
+            $("#submitBtn").click(function(){
+                
+                var account_type = $('#acc_type :selected').text();
+                
+                var accObj = {
+                        "account_type": account_type
+                    };
+                    
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        url: "http://localhost:8080/api/bankapp/bank/account",
+                        dataType: "json",
+                        data: accObj
+                        
+                    });
                 
             });
             

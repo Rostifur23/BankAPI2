@@ -25,9 +25,7 @@ import javax.ws.rs.core.Response;
 @Path("/bankapp")
 public class BankService {
     
-    private int userSession = 0;
-    private int activeAccount = 0;
-    BankResource res = new BankResource();
+    BankResource res = new BankResource(0, 0);
     Gson gson = new Gson();
     
     // Entry Point 1: Account Selection
@@ -38,12 +36,9 @@ public class BankService {
         
         // use userSession
         
-        Account a1 = new Account(1234, 12345678, 123.47, "Current", 1, 1);
-        Account a2 = new Account(5678, 87654321, 4150.34, "Savings", 1, 1);
+        ArrayList<Account> accounts = res.getBankAccounts();
         
-        ArrayList<Account> accounts = new ArrayList<>();
-        accounts.add(a1);
-        accounts.add(a2);
+        
         return Response.status(200).entity(gson.toJson(accounts)).build();
         
     }
@@ -59,6 +54,8 @@ public class BankService {
         System.out.println(password);
         System.out.println(confirmPassword);
         System.out.println(address);
+        int session = 1;
+        res.setSession(session);
         
     }
     
@@ -76,7 +73,7 @@ public class BankService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUserDetails() {
         
-        Customer cust = new Customer(userSession, "name", "address", "ross@email.com", "password");
+        Customer cust = new Customer(1, "name", "address", "ross@email.com", "password");
         
         return Response.status(200).entity(gson.toJson(cust)).build();
         
@@ -105,8 +102,8 @@ public class BankService {
     @Path("/account/transactions")
     public Response getAccountTransactions() {
         // use account id
-        
-        return Response.status(200).entity(activeAccount).build();
+        ArrayList transactions = new ArrayList();
+        return Response.status(200).entity(gson.toJson(transactions)).build();
         
     }
     
@@ -149,8 +146,8 @@ public class BankService {
         // set the userSession Variable here
         System.out.println(email);
         System.out.println(password);
-        
-        userSession = 1; // change to the id retrieved from the db search
+        int session = 1;
+        res.setSession(session);
         
     }
     
@@ -158,7 +155,7 @@ public class BankService {
     @Path("/user/session")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSession() {
-        
+        int userSession = res.getSession();
         return Response.status(200).entity(gson.toJson(userSession)).build();
         
     }
@@ -199,9 +196,9 @@ public class BankService {
     public Response getBankAccountDetails() {
         
         // use activeAccount
-        Account a1 = new Account(1234, 12345678, 123.47, "Current", activeAccount, 1);
+        Account a1 = new Account(1234, 12345678, 123.47, "Current", 1, 1);
         return Response.status(200).entity(gson.toJson(a1)).build();
         
-    } 
+    }
     
 }

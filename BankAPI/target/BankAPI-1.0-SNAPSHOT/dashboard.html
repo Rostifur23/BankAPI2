@@ -13,6 +13,8 @@ and open the template in the editor.
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
     <body>
+        <a href="http://localhost:8080/accounts.html">Back to Accounts</a>
+        <a href="http://localhost:8080/settings.html">View Settings</a>
         <div>User Dashboard</div>
         <div class="acc_container">
             <div class="account_details">
@@ -45,6 +47,9 @@ and open the template in the editor.
                 </div>
                 <button class="form_btn" id="show_transactions">View Transactions</button>
                 <div class="view_transactions">
+                    <div class="transactions">
+                        
+                    </div>
                 </div>
             </div>
         </div> 
@@ -101,6 +106,28 @@ and open the template in the editor.
                 }
                 
             });
+            
+            /*
+            $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/api/bankapp/account/transactions",
+                dataType: 'json', // data type of response
+                contenttype: 'application/json',
+                success: function (data){
+                    // loop through data outputting each account
+                    console.log(data);
+                    var html = "";
+                    for (i in data) {
+                        console.log(data[i]);
+                        html = html; // add more here 
+                                    
+                    }
+                    $(".transactions").html(html);   
+                    
+                    
+                }
+                
+            });*/
             
             $("#display_btn").click(function(){
                 $(".make_payment").slideToggle( "slow", function() {
@@ -176,8 +203,6 @@ and open the template in the editor.
                         
                     });
                 }
-                
-                
                 
             });
        

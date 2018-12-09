@@ -10,7 +10,7 @@
         <!-- User Login Form -->
         <div class="container">
             <h1>Log In</h1>
-            <form action="http://localhost:8080/api/bankapp/user/login/" method="POST">
+            <form method="POST" action="http://localhost:8080/api/bankapp/user/login">
                 <input class="form_input" placeholder="email" id="email" type="email" name="email"/>
                 <br>
                 <input class="form_input" placeholder="password" id="password" type="password" name="password"/>
@@ -25,30 +25,26 @@
 
 <script>
     
-    /*
+    
     $(document).ready(function(){
-        $("#submitBtn").click(function(){
-            
-            var email = $('#email').val();
-            var password = $('#password').val();
-            alert(email+" "+password);
-            var credObj = {
-                "email": email,
-                "password": password
-            };
-            
-            
-            $.ajax({
-                type: 'POST',
-                contentType: 'application/json',
-                url: "http://localhost:8080/api/bankapp/user/login/",
-                dataType: "json",
-                data: credObj
-                
+        
+        $.ajax({
+                type: 'GET',
+                url: "http://localhost:8080/api/bankapp/user/session",
+                dataType: 'json', // data type of response
+                contenttype: 'application/json',
+                success: function (data){
+                    var uid = data;
+                    console.log(uid);
+                    if(uid !== 0){
+                        location.replace("http://localhost:8080/accounts.html");
+                    }
+                    
+                }
                 
             });
-        });
+    
     });
-    */
+    
     
 </script>
