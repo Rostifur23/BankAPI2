@@ -15,14 +15,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Transaction {
     
     private int trans_id;
-    private long trans_date;
+    private String trans_date;
     private String trans_desc;
     private double new_balance;
     private String trans_type;
     private int trans_to;
     private int account_id;
 
-    public Transaction(int trans_id, long trans_date, String trans_desc, double new_balance, String trans_type, int trans_to, int account_id) {
+    public Transaction(int trans_id, String trans_date, String trans_desc, double new_balance, String trans_type, int trans_to, int account_id) {
         this.trans_id = trans_id;
         this.trans_date = trans_date;
         this.trans_desc = trans_desc;
@@ -40,11 +40,11 @@ public class Transaction {
         this.trans_id = trans_id;
     }
 
-    public long getTrans_date() {
+    public String getTrans_date() {
         return trans_date;
     }
 
-    public void setTrans_date(long trans_date) {
+    public void setTrans_date(String trans_date) {
         this.trans_date = trans_date;
     }
 

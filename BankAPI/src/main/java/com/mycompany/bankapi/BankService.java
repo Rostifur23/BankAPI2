@@ -37,7 +37,12 @@ public class BankService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBankAccounts() {
         
+        // ArrayList<Account> accounts = res.getBankAccounts();
+        
+        
         ArrayList<Account> accounts = res.getBankAccounts();
+        Account a = new Account(1, 1234, 12345678, 0.0, "Current", 1);
+        accounts.add(a);
         
         return Response.status(200).entity(gson.toJson(accounts)).build();
         
@@ -46,8 +51,17 @@ public class BankService {
     // Entry Point 2: User - Create Account
     @POST
     @Path("/user/account")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void createUserAccount(@FormParam("name") String name, @FormParam("email") String email, @FormParam("password") String password, @FormParam("con_password") String confirmPassword, @FormParam("address") String address){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createUserAccount(String userDetails){
+        
+        
+        JsonElement jelement = new JsonParser().parse(userDetails);
+        JsonObject  jobject = jelement.getAsJsonObject();
+        String email = jobject.get("email").getAsString();
+        String password = jobject.get("password").getAsString();
+        String name = jobject.get("name").getAsString();
+        String address = jobject.get("address").getAsString();
+        
         
         res.createUserAccount(name, email, password, address);
         
@@ -58,7 +72,8 @@ public class BankService {
     @Path("/user/account")
     public void deleteUserAccount() {
         
-        // use userSession
+        res.deleteUser();
+        
     }
     
     // Entry Point 4: User - Account Details
@@ -67,7 +82,7 @@ public class BankService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUserDetails() {
         
-        Customer cust = new Customer(1, "name", "address", "ross@email.com", "password");
+        Customer cust = res.getUserDetails();
         
         return Response.status(200).entity(gson.toJson(cust)).build();
         
@@ -75,20 +90,28 @@ public class BankService {
     
     // Entry Point 5: User - Edit Account (Password)
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/user/account/password")
-    public void updatePassword(@FormParam("password") String password, @FormParam("con_password") String confirmPassword, @FormParam("new_password") String newPassword) {
-        System.out.println(password);
-        System.out.println(confirmPassword);
-        System.out.println(newPassword);
+    public void updatePassword(String newPassword) {
+        
+        JsonElement jelement = new JsonParser().parse(newPassword);
+        JsonObject  jobject = jelement.getAsJsonObject();
+        
+        // System.out.println(password);
+        // System.out.println(confirmPassword);
+        // System.out.println(newPassword);
     }
     
     // Entry Point 6: User - Edit Account (Address)
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/user/account/address")
-    public void updateAddress(@FormParam("address") String address) {
-        System.out.println(address);
+    public void updateAddress(String address) {
+        
+        JsonElement jelement = new JsonParser().parse(address);
+        JsonObject  jobject = jelement.getAsJsonObject();
+        
+        //System.out.println(address);
     }
     
     // Entry Point 7: Account - Transaction (History)
@@ -96,7 +119,8 @@ public class BankService {
     @Path("/account/transactions")
     public Response getAccountTransactions() {
         // use account id
-        ArrayList transactions = new ArrayList();
+        ArrayList<Transaction> transactions = res.getTransactions();
+        
         return Response.status(200).entity(gson.toJson(transactions)).build();
         
     }
@@ -106,6 +130,9 @@ public class BankService {
     @Path("/account/transactions/lodgment")
     @Consumes(MediaType.APPLICATION_JSON)
     public void accountLodgment(String lodgment){
+        
+        JsonElement jelement = new JsonParser().parse(lodgment);
+        JsonObject  jobject = jelement.getAsJsonObject();
         
         System.out.println(lodgment);
         
@@ -117,6 +144,9 @@ public class BankService {
     @Consumes(MediaType.APPLICATION_JSON)
     public void accountWithdrawal(String withdrawal){
         
+        JsonElement jelement = new JsonParser().parse(withdrawal);
+        JsonObject  jobject = jelement.getAsJsonObject();
+        
         System.out.println(withdrawal);
         
     }
@@ -127,6 +157,9 @@ public class BankService {
     @Consumes(MediaType.APPLICATION_JSON)
     public void accountTransfer(String transfer){
         
+        JsonElement jelement = new JsonParser().parse(transfer);
+        JsonObject  jobject = jelement.getAsJsonObject();
+        
         System.out.println(transfer);
         
     }
@@ -134,8 +167,16 @@ public class BankService {
     // Entry Point 11: User - Log In
     @POST
     @Path("/user/login")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public void userLogIn(@FormParam("email") String email, @FormParam("password") String password){
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void userLogIn(String loginCredentials){
+        
+        JsonElement jelement = new JsonParser().parse(loginCredentials);
+        JsonObject  jobject = jelement.getAsJsonObject();
+        String email = jobject.get("email").getAsString();
+        String password = jobject.get("password").getAsString();
+        
+        System.out.println(email);
+        System.out.println(password);
         
         res.userLogIn(email, password);
         
@@ -159,7 +200,7 @@ public class BankService {
         JsonElement jelement = new JsonParser().parse(bankAccountDetails);
         JsonObject  jobject = jelement.getAsJsonObject();
         String account_type = jobject.get("account_type").getAsString();
-        System.out.println(account_type);
+        res.createBankAccount(account_type);
         
     }
     
@@ -169,9 +210,9 @@ public class BankService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getBankAccountDetails() {
         
-        // use activeAccount
+        Account a = res.getAccountDetails();
         
-        return Response.status(200).entity(gson.toJson("put account here")).build();
+        return Response.status(200).entity(gson.toJson(a)).build();
         
     }
     
@@ -181,8 +222,22 @@ public class BankService {
     @Path("/user/session")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSession() {
+        
         int userSession = res.getSessionId();
         return Response.status(200).entity(gson.toJson(userSession)).build();
+        
+    }
+    
+    @POST
+    @Path("bank/account/active")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void setActiveAccount(String activeAccount){
+        
+        JsonElement jelement = new JsonParser().parse(activeAccount);
+        JsonObject  jobject = jelement.getAsJsonObject();
+        String account_type = jobject.get("id").getAsString();
+        int aid = Integer.parseInt(account_type);
+        res.setActiveAccount(aid);
         
     }
     

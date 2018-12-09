@@ -60,8 +60,8 @@ and open the template in the editor.
                     console.log(data);
                     var html = "";
                     for (i in data) {
-                        html = html+'<form><input class="form_btn" type="submit" value="'+data[i].account_type+' : '+data[i].account_num+'"/></form>'
-                                    
+                        // html = html+'<form><input class="form_btn" onclick="hello('+data[i].account_id+')" type="submit" value="'+data[i].account_type+' : '+data[i].account_num+'"/></form>';
+                        html = html+'<button class="form_btn" onclick="hello('+data[i].account_id+')" type="submit">'+data[i].account_type+' : '+data[i].account_num+'</button>';
                     }
                     $(".accounts").html(html);
                     
@@ -97,5 +97,23 @@ and open the template in the editor.
                 
             });
             
+            
+            
+            
     });
+    
+            function hello(account_id){
+                
+                account = '{"id":"'+account_id+'"}';
+                $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json',
+                        url: "http://localhost:8080/api/bankapp/bank/account/active",
+                        dataType: "json",
+                        data: account
+                        
+                    });
+                    
+                 location.replace("http://localhost:8080/dashboard.html");
+            }
 </script>
