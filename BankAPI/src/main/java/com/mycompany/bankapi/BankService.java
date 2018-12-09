@@ -41,8 +41,6 @@ public class BankService {
         
         
         ArrayList<Account> accounts = res.getBankAccounts();
-        Account a = new Account(1, 1234, 12345678, 0.0, "Current", 1);
-        accounts.add(a);
         
         return Response.status(200).entity(gson.toJson(accounts)).build();
         
